@@ -1,0 +1,262 @@
+//document.addEventListener('turbolinks:load', function() {
+$(document).ready(function() {
+  function streetFormatResult(item) {
+    if (isEmpty(item.streetName)) {
+      return  item.cityName + '<br>' +
+              '<small>' + item.cityType + '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]&nbsp<span class="pull-right">' + item.terytId + '</span></small><br>' +
+              item.postCode + '&nbsp&nbsp<small>' + ifNullToEmptyStr(item.postCodeNumbers) + '</small>';
+    } else {
+      return  item.cityName + '<br>' +
+              item.streetName + '&nbsp&nbsp<small>' + item.streetAttribute + '</small><br>' +
+              '<small>' + item.cityType + '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]&nbsp<span class="pull-right">' + item.terytId + '</span></small><br>' +
+              item.postCode + '&nbsp&nbsp<small>' + ifNullToEmptyStr(item.postCodeNumbers) + '</small>';
+    }
+  };
+
+  function streetFormatSelection(item) {
+    //return repo.streetName;
+    // if (repo.id !== "") {
+    //   var markup = '<div class="row">' +
+    //                '<div class="col-sm-6">' + repo.streetName + '</div>' +
+    //                '<div class="col-sm-2">' + repo.cityName + '</div>' +
+    //                '<div class="col-sm-2">' + repo.districtName + '</div>' +
+    //                '<div class="col-sm-2">' + repo.provinceName + '</div>' +
+    //             '</div>';
+    //   return markup;
+    // } else {
+    //   return repo.streetName;
+    // }
+
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      if (isEmpty(item.streetName)) {
+        return  item.cityName + ',&nbsp&nbsp' + item.postCode + 
+                '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]<span class="pull-right">' + item.terytId + '</span>';
+      } else {
+        return  item.cityName + ',&nbsp&nbsp' + item.postCode + ',&nbsp&nbsp' + item.streetAttribute + '&nbsp' + item.streetName + 
+                '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]<span class="pull-right">' + item.terytId + '</span>';
+      }
+    }
+  };
+
+
+  $('.select2teryt_street').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/teryt/street_search.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        var more = (page * 10) < data.meta.totalCount;
+        // var repos = $.map(data.items, function(item, i) {
+        //   return { id: item.id, text: item.streetName };
+        // });
+        return { results: data.items, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/teryt/street_data/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.streetName });
+        });
+      }
+    },
+    formatResult: streetFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: streetFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+  });
+
+
+
+
+
+
+  // Provinces
+  function provinceFormatResult(item) {
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.terytId + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+    }
+  };
+  function provinceFormatSelection(item) {
+    //document.getElementById("area_province_code").value = item.terytId;
+    //document.getElementById("area_province_name").value = item.name;
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.terytId + '&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+    }
+  };
+
+  $('.select2teryt_provinces').select2({
+    minimumInputLength: 0,
+    allowClear: false,
+    ajax: {
+      url: "/teryt/provinces.json",
+      dataType: 'json',
+      type: 'GET',
+      results: function(data, page) {
+        //var more = (page * 10) < data.meta.totalCount;
+        return { results: data, more: false };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    formatResult: provinceFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: provinceFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+  })
+  .on("select2-selecting", function(e) {
+    //$("#yourSelector").select2("data", { id: 1, text: "Some Text" });
+    $("#district_id_select").select2("val", "")
+    $("#district_id_select").select2("readonly", false);
+    $("#commune_id_select").select2("val", "")
+    $("#commune_id_select").select2("readonly", true);
+    document.getElementById("id_submit_button").disabled = true; 
+  });
+
+
+  // ProvinceDistricts
+  function districtFormatResult(item) {
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.provinceCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+    }
+  };
+  function districtFormatSelection(item) {
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.provinceCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+    }
+  };
+
+  $('.select2teryt_province_districts').select2({
+    minimumInputLength: 0,
+    allowClear: false,
+    ajax: {
+      url: "/teryt/province_districts.json",
+      dataType: 'json',
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          province_id: $("#province_id_select").select2("val")
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.meta.totalCount;
+        return { results: data, more: false };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    formatResult: districtFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: districtFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+  })
+  .on("select2-selecting", function(e) {
+    //$("#yourSelector").select2("data", { id: 1, text: "Some Text" });
+    $("#commune_id_select").select2("val", "")
+    $("#commune_id_select").select2("readonly", false);
+    document.getElementById("id_submit_button").disabled = true; 
+  });
+
+
+
+  // DistrictCommunes
+  function communeFormatResult(item) {
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.type.name + '&nbsp][&nbsp' + item.provinceCode + ',&nbsp' + item.districtCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+    }
+  };
+  function communeFormatSelection(item) {
+    //document.getElementById("area_commune_code").value = item.code;
+    //document.getElementById("area_commune_name").value = item.name;
+    //document.getElementById("area_commune_type_code").value = item.type.code;
+    //document.getElementById("area_commune_type_name").value = item.type.name;
+    document.getElementById("area_teryt").value = item.terytId;
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.type.name + '&nbsp][&nbsp' + item.provinceCode + ',&nbsp' + item.districtCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+    }
+  };
+
+  $('.select2teryt_district_communes').select2({ 
+    minimumInputLength: 0,
+    allowClear: false,
+    ajax: {
+      url: "/teryt/district_communes.json",
+      dataType: 'json',
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          district_id: $("#district_id_select").select2("val")
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.meta.totalCount;
+        return { results: data, more: false };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    formatResult: communeFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: communeFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+  })
+  .on("select2-selecting", function(e) {
+    document.getElementById("id_submit_button").disabled = false; 
+  })
+
+});
+

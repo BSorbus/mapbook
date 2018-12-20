@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8">
+    <meta lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "UKE MapBook" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "UKE MapBook" %>">
+
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= favicon_link_tag asset_path('favicon.ico'), :rel => 'shortcut icon', :type => "image/x-icon" %>
+
+    <%= yield(:javascript) %> 
+
+  </head>
+
+  <body class="site">
+    <%= render 'layouts/header' %>
+    <main class="site-content">
+      <%= render 'layouts/messages' %>
+      <%= yield(:form_errors) %>       
+      <%= yield %>
+    </main>
+    <%= render 'layouts/footer' %>
+  </body>
+</html>

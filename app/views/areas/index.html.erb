@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <hr class="hr-without-top-margin">
+      <h3 class="center">
+        <span class="glyphicon glyphicon-globe glyp-index-title" aria-hidden="true"></span>
+        <span class="index-title"><%= t '.title' %></span>
+      </h3>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+
+  <%= form_with model: @area, url: "areas/find_or_create", remote: true do |f| %>
+
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <%= f.label :province_id, class: "control-label" %>
+            <%= f.hidden_field :province_id,
+                              class: "form-control input-sm select2teryt_provinces", 
+                              placeholder: "Wybierz województwo",
+                              style: "width:100%",
+                              id: "province_id_select" %>
+          </div>
+
+          <div class="form-group col-sm-12">
+            <%= f.label :district_id, class: "control-label" %>
+            <%= f.hidden_field :district_id, 
+                              class: "form-control input-sm select2teryt_province_districts", 
+                              placeholder: "Wybierz powiat",
+                              style: "width:100%",
+                              readonly: true,
+                              id: "district_id_select" %>
+          </div>
+
+          <div class="form-group col-sm-12">
+            <%= f.label :commune_id, class: "control-label" %>
+            <%= f.hidden_field :commune_id, 
+                              class: "form-control input-sm select2teryt_district_communes", 
+                              placeholder: "Wybierz gminę",
+                              style: "width:100%",
+                              readonly: true,
+                              id: "commune_id_select" %>
+          </div>
+        </div> <!-- / class="row" -->    
+      </div> <!-- / class="col-sm-7" -->
+
+      <div class="col-sm-4">
+        <div class="row">
+          <div class="col-sm-12">
+            <blockquote>
+              <p>Mapy obszarów obejmują poszczególne gminy.</p>
+              <br>
+              Wybierz właściwe województwo, powiat oraz gminę i wyszukaj dane dla tego obszaru. Następnie wyświetl lub pobierz załączony plik. 
+            </blockquote>
+          </div> <!-- /.col-sm-12 -->
+        </div> <!-- / class="row" -->    
+      </div> <!-- /.col-sm-5 -->
+    </div> <!-- /row -->
+
+    <%= f.hidden_field :teryt %>
+
+    <div class="row">
+      <div class="actions col-sm-12">
+        <button class="btn btn-primary pull-right" name="button" id="id_submit_button" type="submit" disabled="true">
+          <span class="glyphicon glyphicon-search"></span>
+          Szukaj
+        </button>
+      </div>
+    </div> <!-- /row -->
+
+
+  <% end %> <!-- /form_with -->
+
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div id="area_teryt_search_result"></div>
+
+    </div> <!-- /.col-sm-12 -->
+  </div> <!-- / class="row" -->    
+
+
+</div> <!--/container -->

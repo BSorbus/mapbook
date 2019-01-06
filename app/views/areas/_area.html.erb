@@ -1,63 +1,67 @@
-<hr>
+<br>
 <% if area.present? %>
 
-  <div class="col-sm-12">
+  <div id="result_panel" class="panel panel-teryt">
+    <div class="panel-heading">
+      <div class="panel-title">
+        <button type="button" class="close" data-target="#result_panel" data-dismiss="alert"> <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <span><%= Area.human_attribute_name(:teryt) %>:&nbsp;<strong><%= area.teryt %></strong></span>
+      </div> 
+    </div>
 
-    <div class="row">
-      <div class="col-sm-6">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <% if area.file_pdf.attached? %>
+                <p><strong><%= Area.human_attribute_name(:file_pdf_url) %></strong></p>
+                <%= link_to url_for(only_path: false, controller: "teryt", action: "file_pdf", teryt: "#{area.teryt}"), url_for(only_path: false, controller: "teryt", action: "file_pdf", teryt: "#{area.teryt}"), target: :_blank %>              
+              <% else %>
+                <p><%= t('.no_file_pdf') %></p>
+              <% end %>
+            </div>
+            <div class="form-group col-sm-12">
+              <% if area.file_pdf.attached? %>
+                <p><strong><%= Area.human_attribute_name(:file_pdf) %></strong></p>
+                <%= link_to area.file_pdf.filename, rails_blob_path(area.file_pdf, disposition: "attachment") %>
+              <% end %>
+            </div>
+          </div>  <!-- /row -->
+        </div> <!--/col-sm-6 -->
 
-        <div class="row">
-          <div class="form-group col-sm-4">
-            <p><strong><%= Area.human_attribute_name(:teryt) %></strong></p>
-            <%= area.teryt %>
-          </div>
-        </div>  <!-- /row -->
-      </div>  <!-- /col-sm-6 -->
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <% if area.file_xlsx.attached? %>
+                <p><strong><%= Area.human_attribute_name(:file_xlsx_url) %></strong></p>
+                <%= link_to url_for(only_path: false, controller: "teryt", action: "file_xlsx", teryt: "#{area.teryt}"), url_for(only_path: false, controller: "teryt", action: "file_xlsx", teryt: "#{area.teryt}"), target: :_blank %>              
+              <% else %>
+                <p><%= t('.no_file_xlsx') %></p>
+              <% end %>
+            </div>
+            <div class="form-group col-sm-12">
+              <% if area.file_xlsx.attached? %>
+                <p><strong><%= Area.human_attribute_name(:file_xlsx) %></strong></p>
+                <%= link_to area.file_xlsx.filename, rails_blob_path(area.file_xlsx, disposition: "attachment") %>
+              <% end %>
+            </div>
+          </div>  <!-- /row -->
+        </div> <!--/col-sm-6 -->
 
-      <div class="col-sm-6">
+      </div>  <!-- /row -->
 
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <% if area.file_pdf.attached? %>
-              <p><strong><%= Area.human_attribute_name(:file_pdf_url) %></strong></p>
-              <%= link_to url_for(only_path: false, controller: "teryt", action: "file_pdf", teryt: "#{area.teryt}"), url_for(only_path: false, controller: "teryt", action: "file_pdf", teryt: "#{area.teryt}"), target: :_blank %>              
-            <% else %>
-              <p><%= t('.no_file_pdf') %></p>
-            <% end %>
-          </div>
-          <div class="form-group col-sm-12">
-            <% if area.file_pdf.attached? %>
-              <p><strong><%= Area.human_attribute_name(:file_pdf) %></strong></p>
-              <%= link_to area.file_pdf.filename, rails_blob_path(area.file_pdf, disposition: "attachment") %>
-            <% end %>
-          </div>
-        </div>  <!-- /row -->
-        <hr>
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <% if area.file_xlsx.attached? %>
-              <p><strong><%= Area.human_attribute_name(:file_xlsx_url) %></strong></p>
-              <%= link_to url_for(only_path: false, controller: "teryt", action: "file_xlsx", teryt: "#{area.teryt}"), url_for(only_path: false, controller: "teryt", action: "file_xlsx", teryt: "#{area.teryt}"), target: :_blank %>              
-            <% else %>
-              <p><%= t('.no_file_xlsx') %></p>
-            <% end %>
-          </div>
-          <div class="form-group col-sm-12">
-            <% if area.file_xlsx.attached? %>
-              <p><strong><%= Area.human_attribute_name(:file_xlsx) %></strong></p>
-              <%= link_to area.file_xlsx.filename, rails_blob_path(area.file_xlsx, disposition: "attachment") %>
-            <% end %>
-          </div>
-        </div>  <!-- /row -->
+    </div>
+  </div>
 
 
-      </div> <!--/col-sm-6 -->
-    </div>  <!-- /row -->
 
 
+<!-- 
     <hr class="hr-without-top-margin">
 
-
+ -->
     <div class="row">
 <!-- 
       <%# if policy(@customer).destroy? %>
@@ -77,9 +81,8 @@
         <%# end %>
       <%# end %>
 
- -->    </div> <!-- /row -->
-
-  </div> <!--/col-sm-12-->
+ -->    
+    </div> <!-- /row -->
 
 <% else %>
 

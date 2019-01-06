@@ -228,10 +228,11 @@ blockquote {
   } 
 }
 
-.panel-product {
+.panel-teryt {
   border-color: #ddd;
   .panel-heading {
-    background: $brand-primary; //#1A3069;
-    color: white;
+    background: $btn-default-bg;
+    color: black;
   } 
 }
+

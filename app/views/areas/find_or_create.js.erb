@@ -1,2 +1,2 @@
-$("#area_teryt_search_result").empty();
-$("#area_teryt_search_result").append("<%= j(render 'areas/area', area: area) %>");
+$("#area_teryt_search_result").empty().hide();
+$("#area_teryt_search_result").append("<%= j(render 'areas/area', area: area) %>").fadeIn(1000);

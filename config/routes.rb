@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get  '/teryt/:teryt/file_xlsx', to: 'teryt#file_xlsx'
 
   post '/areas/find_or_create', to: 'areas#find_or_create'
+  get  '/areas/info', to: 'areas#info'
 
   #resources :areas, except: [:show, :create]
   resources :areas, except: [:show, :new, :create, :edit, :update, :destroy]

@@ -15,12 +15,17 @@ pl:
       links: 'Zobacz też'
   areas:
     index:
-      title: 'Mapa obszarów'
+      title: 'Atlas szerokopasmowego dostępu do internetu'
+      navbar: 'Wyszukiwarka map'
+    info:
+      title: 'Informacje'
+      navbar: 'o atlasie'
     edit:
       title: 'Edycja -> Obszar'
     area:
       no_file_pdf: 'Brak załącznika *.pdf'
       no_file_xlsx: 'Brak załącznika *.xlsx'
+      province_zip_name: 'Mapy z województwa %{data}'
   activerecord:
     models:
       area: 'Obszar'

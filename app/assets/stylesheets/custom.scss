@@ -139,6 +139,15 @@ footer {
   }
 }
 
+.center-v {
+  display: flex;
+  align-items: center; 
+}
+
+.center-v p {
+  margin: 0;
+}
+
 .hr-without-top-margin {
   margin-top: 0px;  /*default: 20px; */
   margin-bottom: 10px;

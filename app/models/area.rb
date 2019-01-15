@@ -80,7 +80,7 @@ class Area < ApplicationRecord
         ''
       end
 
-    "https://mapbook.uke.gov.pl/file/#{province}.zip"
+    "http://#{Rails.application.secrets.domain_name}/file/#{province}.zip"
   end
 
 end

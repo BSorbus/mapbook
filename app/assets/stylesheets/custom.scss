@@ -153,6 +153,11 @@ footer {
   margin-bottom: 10px;
 }
 
+.hr-without-all-margin {
+  margin-top: 0px;  /*default: 20px; */
+  margin-bottom: 0px;
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {

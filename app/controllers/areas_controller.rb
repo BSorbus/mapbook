@@ -18,32 +18,6 @@ class AreasController < ApplicationController
     end
   end
 
-  # GET /areas/1/edit
-  def edit
-  end
-
-  # PATCH/PUT /areas/1
-  # PATCH/PUT /areas/1.json
-  def update
-    respond_to do |format|
-      if @area.update(area_params)
-        format.html { redirect_to areas_url, notice: 'Area was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
-    end
-  end
-
-  # DELETE /areas/1
-  # DELETE /areas/1.json
-  def destroy
-    @area.destroy
-    respond_to do |format|
-      format.html { redirect_to areas_url, notice: 'Area was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_area

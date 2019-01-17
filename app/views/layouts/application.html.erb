@@ -17,13 +17,15 @@
 
   </head>
 
-  <body class="site">
-    <%= render 'layouts/header' %>
-    <main class="site-content">
-      <%= render 'layouts/messages' %>
-      <%= yield(:form_errors) %>       
-      <%= yield %>
-    </main>
+  <body>
+    <div class="content">
+      <%= render 'layouts/header' %>
+      <main>
+        <%= render 'layouts/messages' %>
+        <%= yield(:form_errors) %>       
+        <%= yield %>
+      </main>
+    </div>
     <%= render 'layouts/footer' %>
   </body>
 </html>

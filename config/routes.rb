@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get  '/areas/info', to: 'areas#info'
 
   #resources :areas, except: [:show, :create]
-  resources :areas, except: [:show, :new, :create, :edit, :update, :destroy]
+  resources :areas, only: [:index]
 
   root 'areas#index'
 end

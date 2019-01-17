@@ -25,7 +25,7 @@ pl:
     area:
       no_file_pdf: 'Brak załącznika *.pdf'
       no_file_xlsx: 'Brak załącznika *.xlsx'
-      province_zip_name: 'Mapy z województwa %{data}'
+      province_zip_name: 'Mapy z całego województwa %{data} (*.zip)'
   activerecord:
     models:
       area: 'Obszar'

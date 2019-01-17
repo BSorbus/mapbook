@@ -39,22 +39,17 @@ $btn-default-bg:         lighten(#BECC25, 48.5%) !default;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-
-// Sticky Footer 
-.site {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-.site-content {
-  flex: 1;
+html, body {
+  height: 100%;
 }
 
 body {
-  background-color: white;
+  display: flex;
+  flex-direction: column;
 }
-
+.content {
+  flex: 1 0 auto;
+}
 
 main {
   @extend .container;
@@ -68,11 +63,12 @@ main {
 }
 
 footer {
-  margin-top: 0px;
+  flex-shrink: 0;
+
   padding-top: 25px;
   padding-bottom: 25px;
-  padding-left: 45px;
-  padding-right: 45px;
+  padding-left: 35px;
+  padding-right: 35px;
   font-size: 1.3em;
   border-top: 1px solid #C7D540;
   color: white;
@@ -82,34 +78,6 @@ footer {
     color: #C7D540 !important;
   };
 
-  .row.display-flex {
-    display: flex;
-    flex-wrap: wrap;
-    .thumbnail {
-      background-color: inherit;
-      border-color: #666;
-      height: 100%;
-      display: flex;
-      padding: 0px;
-      flex-direction: column;
-      .caption {
-        color: inherit;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-      };
-      .img:hover {
-        -webkit-transform: scale(1.02);
-        -moz-transform: scale(1.02);
-        transform: scale(1.02);
-
-        -webkit-box-shadow: 9px 9px 5px 0px rgba(0,0,0,0.55);
-        -moz-box-shadow: 9px 9px 5px 0px rgba(0,0,0,0.55);
-        box-shadow: 9px 9px 5px 0px rgba(0,0,0,0.55);
-      };
-    }
-  }
 }
 
 
@@ -212,6 +180,8 @@ h2 {
   z-index: 98;
 }
 
+//--------------------------------------------------------------------------
+
 blockquote {
   font-size: 0.9em;
   width: 100%;
@@ -223,15 +193,6 @@ blockquote {
   line-height: 1.6;
   position: relative;
   background: #EDEDED;
-}
-
-.input-file-field {
-  display:  block;
-  width: 100%; 
-  height: 4em;
-  border-width: 2px;
-  border-style: dashed; 
-  background-color: $btn-default-bg;  
 }
 
 .panel-area {

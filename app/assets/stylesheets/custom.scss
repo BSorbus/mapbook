@@ -69,7 +69,6 @@ footer {
   padding-bottom: 25px;
   padding-left: 35px;
   padding-right: 35px;
-  font-size: 1.3em;
   border-top: 1px solid #C7D540;
   color: white;
   background-color: #555;
@@ -125,30 +124,6 @@ footer {
   margin-top: 0px;  /*default: 20px; */
   margin-bottom: 0px;
 }
-
-/* typography */
-
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1;
-}
-
-h1 {
-  font-size: 3em;
-  letter-spacing: -2px;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-h2 {
-  font-size: 1.8em;
-  letter-spacing: -1px;
-  margin-bottom: 30px;
-  text-align: center;
-  font-weight: normal;
-  color: $gray-light;
-}
-
-
 
 #error_explanation {
   @extend .alert;

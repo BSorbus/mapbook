@@ -1,6 +1,7 @@
 puts "#####  02_load_data.rb - END #####"
 puts ""
 @files = Dir["#{Rails.root}/to_storage/*.xlsx"]
+#@files = Dir["/webapps/www/mapbook/to_storage/*.xlsx"]
 for file in @files
     puts '------------------------'
 

@@ -68,7 +68,7 @@ footer {
   padding-top: 25px;
   padding-bottom: 25px;
   padding-left: 30px;
-  padding-right: 3px;
+  padding-right: 30px;
   border-top: 1px solid #C7D540;
   color: white;
   background-color: #555;
@@ -125,6 +125,7 @@ footer {
   margin-bottom: 0px;
 }
 
+
 #error_explanation {
   @extend .alert;
   @extend .alert-danger;
@@ -156,6 +157,10 @@ footer {
 }
 
 //--------------------------------------------------------------------------
+
+
+@import 'font_awesome5_webfont';
+
 
 blockquote {
   font-size: 0.9em;

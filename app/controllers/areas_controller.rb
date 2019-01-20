@@ -1,6 +1,8 @@
 class AreasController < ApplicationController
   before_action :set_area, only: [:show, :edit, :update, :destroy]
 
+  caches_page :info, gzip: true
+
   def info
   end
 

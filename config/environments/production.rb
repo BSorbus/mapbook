@@ -78,6 +78,8 @@ Rails.application.configure do
     }
   }
 
+  config.action_controller.page_cache_directory = Rails.root.join("public", "cached_pages")
+
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "select2_#{Rails.env}"

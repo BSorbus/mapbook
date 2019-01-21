@@ -16,6 +16,7 @@ Rails.application.configure do
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
+    config.action_controller.page_cache_directory = Rails.root.join("public", "cached_pages")
 
     # config.cache_store = :memory_store
     #config.cache_store = :redis_store, Rails.application.secrets.redis_url

@@ -76,6 +76,9 @@ gem 'redis-rails'
 
 gem "hiredis"
 gem "redis", "~> 4.0"
+
+gem 'rack-attack'
+
 gem 'mina'
 
 gem "actionpack-page_caching"

@@ -57,9 +57,12 @@ main {
   padding-bottom: 15px;
   margin-top: 93px; // accommodate the navbar 51, 52 if hover:border-bottom 
   //margin-top: 2.0em; 
-  a, a:hover {
+  a {
     text-decoration: none !important;
   }
+  a:hover {
+    text-decoration: underline !important;
+  };
 }
 
 footer {
@@ -72,11 +75,13 @@ footer {
   border-top: 1px solid #C7D540;
   color: white;
   background-color: #555;
-  a, a:hover {
-    text-decoration: none !important;
+  a {
     color: #C7D540 !important;
+    text-decoration: none !important;
+  }
+  a:hover {
+    text-decoration: underline !important;
   };
-
 }
 
 

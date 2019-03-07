@@ -29,7 +29,7 @@ class Rack::Attack
   # end
 
   # Allow an IP address to make 5 requests every 20 seconds
-  throttle('req/ip', limit: 60, period: 60.seconds) do |req|
+  throttle('req/ip', limit: 3000, period: 300.seconds) do |req|
     req.ip
   end
   ### Prevent Brute-Force Login Attacks ###

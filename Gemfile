@@ -83,3 +83,5 @@ gem 'mina'
 
 gem "actionpack-page_caching"
 gem "actionpack-action_caching"
+
+gem 'piwik_analytics'

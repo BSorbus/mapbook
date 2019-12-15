@@ -1,5 +1,5 @@
 $bgDefault      : white;
-$bgHighlight    : #ccc;  //<hr> separator
+$bgHighlight    : lighten(#BECC25, 40%) !default;  // #ccc //<hr> separator
 $colDefault     : #555;
 $colHighlight   : #1B3C8F; //hover
 $dropDown       : true;
@@ -84,22 +84,4 @@ $dropDown       : true;
       > a, > a:hover, > a:focus {
         color: $colHighlight;
         background-color: $bgHighlight; }}}
-}
-
-#logo {
-  float: left;
-  margin-right: 10px;
-  font-size: 1.7em;
-  color: #C7D540;
-  letter-spacing: -1px;
-  padding-top: 9px;
-  font-weight: bold;
-  &:hover {
-    color: white;
-    text-decoration: none;
-
-    -webkit-transform: scale(1.15);
-    -moz-transform: scale(1.15);
-    transform: scale(1.15);
-  }
 }

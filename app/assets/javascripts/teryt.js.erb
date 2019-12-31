@@ -1,103 +1,12 @@
 //document.addEventListener('turbolinks:load', function() {
 $(document).ready(function() {
-  function streetFormatResult(item) {
-    if (isEmpty(item.streetName)) {
-      return  item.cityName + '<br>' +
-              '<small>' + item.cityType + '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]&nbsp<span class="pull-right">' + item.terytId + '</span></small><br>' +
-              item.postCode + '&nbsp&nbsp<small>' + ifNullToEmptyStr(item.postCodeNumbers) + '</small>';
-    } else {
-      return  item.cityName + '<br>' +
-              item.streetName + '&nbsp&nbsp<small>' + item.streetAttribute + '</small><br>' +
-              '<small>' + item.cityType + '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]&nbsp<span class="pull-right">' + item.terytId + '</span></small><br>' +
-              item.postCode + '&nbsp&nbsp<small>' + ifNullToEmptyStr(item.postCodeNumbers) + '</small>';
-    }
-  };
-
-  function streetFormatSelection(item) {
-    //return repo.streetName;
-    // if (repo.id !== "") {
-    //   var markup = '<div class="row">' +
-    //                '<div class="col-sm-6">' + repo.streetName + '</div>' +
-    //                '<div class="col-sm-2">' + repo.cityName + '</div>' +
-    //                '<div class="col-sm-2">' + repo.districtName + '</div>' +
-    //                '<div class="col-sm-2">' + repo.provinceName + '</div>' +
-    //             '</div>';
-    //   return markup;
-    // } else {
-    //   return repo.streetName;
-    // }
-
-    if (isEmpty(item.id)) {
-      return "";
-    } else {
-      if (isEmpty(item.streetName)) {
-        return  item.cityName + ',&nbsp&nbsp' + item.postCode + 
-                '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]<span class="pull-right">' + item.terytId + '</span>';
-      } else {
-        return  item.cityName + ',&nbsp&nbsp' + item.postCode + ',&nbsp&nbsp' + item.streetAttribute + '&nbsp' + item.streetName + 
-                '&nbsp&nbsp[&nbsp' + item.provinceName + ',&nbsp&nbsp' + item.districtName + ',&nbsp&nbsp' + item.communeName + '&nbsp]<span class="pull-right">' + item.terytId + '</span>';
-      }
-    }
-  };
-
-
-  $('.select2teryt_street').select2({
-    minimumInputLength: 3,
-    allowClear: false,
-    ajax: {
-      url: "/teryt/street_search.json",
-      dataType: 'json',
-      quietMillis: 250,
-      type: 'GET',
-      data: function(term, page) {
-        return {
-          q: term,
-          page: page
-        };
-      },
-      results: function(data, page) {
-        var more = (page * 10) < data.meta.totalCount;
-        // var repos = $.map(data.items, function(item, i) {
-        //   return { id: item.id, text: item.streetName };
-        // });
-        return { results: data.items, more: more };
-      }
-    },
-    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR);
-      if (jqXHR.status == 401) {
-        window.location.reload();
-      } else {
-        getErrorMessage(jqXHR, jqXHR.status);
-      }
-      return errorThrown + " " + jqXHR.responseText;
-    },
-    initSelection: function(element, callback) {
-      var id=$(element).val();
-      if (id!=="") {
-        $.get("/teryt/street_data/"+id+".json", function(data_from_json) {
-          if(data_from_json)
-            callback({ id: data_from_json.id, text: data_from_json.streetName });
-        });
-      }
-    },
-    formatResult: streetFormatResult, // omitted for brevity, see the source of this page
-    formatSelection: streetFormatSelection, // omitted for brevity, see the source of this page
-    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
-    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
-  });
-
-
-
-
-
 
   // Provinces
   function provinceFormatResult(item) {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.terytId + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.terytId + '&nbsp]</span></small>';
     }
   };
   function provinceFormatSelection(item) {
@@ -106,7 +15,7 @@ $(document).ready(function() {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.terytId + '&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.terytId + '&nbsp]</span></small>';
     }
   };
 
@@ -114,12 +23,29 @@ $(document).ready(function() {
     minimumInputLength: 0,
     allowClear: false,
     ajax: {
-      url: "/teryt/provinces.json",
+      //url: "/teryt/provinces.json",
+      url: "/teryt/provinces_select2_index.json",
       dataType: 'json',
       type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 16,
+          page: 1
+        }
+      },
+      // results: function(data, page) {
+      //   return { results: data, more: false };
+      // }
       results: function(data, page) {
         //var more = (page * 10) < data.meta.totalCount;
-        return { results: data, more: false };
+        //return { results: data, more: false };
+        //var more = (page * 16) < data.total_count;
+        var more = (page * 16) < data.meta.total_count;
+        var provinces = $.map(data.provinces, function(province, i) {
+          return { data_obj: province, id: province.id, text: province.name };
+        });
+        return { results: provinces, more: more };
       }
     },
     formatAjaxError: function(jqXHR, textStatus, errorThrown) {
@@ -151,14 +77,14 @@ $(document).ready(function() {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.provinceCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.terytId + '&nbsp]</span></small>';
     }
   };
   function districtFormatSelection(item) {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.provinceCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.terytId + '&nbsp]</span></small>';
     }
   };
 
@@ -166,17 +92,24 @@ $(document).ready(function() {
     minimumInputLength: 0,
     allowClear: false,
     ajax: {
-      url: "/teryt/province_districts.json",
+      //url: "/teryt/province_districts.json",
+      url: "/teryt/province_districts_select2_index.json",
       dataType: 'json',
       type: 'GET',
       data: function(term, page) {
         return {
+          q: term,
+          page_limit: 50,
+          page: page,
           province_id: $("#province_id_select").select2("val")
-        };
+        }
       },
       results: function(data, page) {
-        //var more = (page * 10) < data.meta.totalCount;
-        return { results: data, more: false };
+        var more = (page * 50) < data.meta.total_count;
+        var districts = $.map(data.districts, function(district, i) {
+          return { data_obj: district, id: district.id, text: district.name };
+        });
+        return { results: districts, more: more };
       }
     },
     formatAjaxError: function(jqXHR, textStatus, errorThrown) {
@@ -207,7 +140,7 @@ $(document).ready(function() {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.type.name + '&nbsp][&nbsp' + item.provinceCode + ',&nbsp' + item.districtCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.type.name + '&nbsp][&nbsp' + item.data_obj.terytId + '&nbsp]</span></small>';
     }
   };
   function communeFormatSelection(item) {
@@ -219,7 +152,7 @@ $(document).ready(function() {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.type.name + '&nbsp][&nbsp' + item.provinceCode + ',&nbsp' + item.districtCode + ',&nbsp' + item.code + '&nbsp-&nbspteryt:&nbsp' + item.terytId + '&nbsp]</span></small>';
+      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.type.name + '&nbsp][&nbsp' + item.data_obj.terytId + '&nbsp]</span></small>';
     }
   };
 
@@ -227,17 +160,24 @@ $(document).ready(function() {
     minimumInputLength: 0,
     allowClear: false,
     ajax: {
-      url: "/teryt/district_communes.json",
+      //url: "/teryt/district_communes.json",
+      url: "/teryt/district_communes_select2_index.json",
       dataType: 'json',
       type: 'GET',
       data: function(term, page) {
         return {
+          q: term,
+          page_limit: 50,
+          page: page,
           district_id: $("#district_id_select").select2("val")
         };
       },
       results: function(data, page) {
-        //var more = (page * 10) < data.meta.totalCount;
-        return { results: data, more: false };
+        var more = (page * 50) < data.meta.total_count;
+        var communes = $.map(data.communes, function(commune, i) {
+          return { data_obj: commune, id: commune.id, text: commune.name };
+        });
+        return { results: communes, more: more };
       }
     },
     formatAjaxError: function(jqXHR, textStatus, errorThrown) {

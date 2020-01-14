@@ -75,7 +75,6 @@ gem 'jquery-rails'
 gem 'select2-rails', '3.5.9.3'
 
 gem 'redis-rails'
-
 gem 'hiredis'
 gem 'redis', '~> 4.0'
 

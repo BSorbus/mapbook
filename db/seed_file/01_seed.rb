@@ -1,24 +1,28 @@
-puts "#####  01_load_data.rb - END #####"
-puts ""
+# frozen_string_literal: true
+
+puts '#####  01_load_data.rb - END #####'
+puts ''
 @files = Dir["#{Rails.root}/to_storage/*.pdf"]
-#@files = Dir["/webapps/www/mapbook/to_storage/*.pdf"]
-for file in @files
-    puts '------------------------'
+# @files = Dir["/webapps/www/mapbook/to_storage/*.pdf"]
+@files.each do |file|
+  puts '------------------------'
 
-    puts file
+  puts file
 
-    #                   9876543210
-    # /sciezka/do_pliku/010101.pdf
-    reverse_file = file.reverse[4..9]
-    teryt_code = reverse_file.reverse
-    puts teryt_code
+  #                   9876543210
+  # /sciezka/do_pliku/010101.pdf
+  reverse_file = file.reverse[4..9]
+  teryt_code = reverse_file.reverse
+  puts teryt_code
 
-    area = Area.find_or_create_by!(teryt: "#{teryt_code}")
-	area.file_pdf.attach(io: File.open("#{file}"), filename: "#{teryt_code}.pdf", content_type: "application/pdf") unless area.file_pdf.attached?
+  area = Area.find_or_create_by!(teryt: teryt_code.to_s)
+  unless area.file_pdf.attached?
+    area.file_pdf.attach(io: File.open(file.to_s), filename: "#{teryt_code}.pdf", content_type: 'application/pdf')
+ end
 
-    puts '------------------------'
-    #sleep 1
+  puts '------------------------'
+  # sleep 1
 end
 
-puts "#####  01_load_data.rb - END #####"
-puts ""
+puts '#####  01_load_data.rb - END #####'
+puts ''

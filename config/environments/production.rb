@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -40,7 +42,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
-  #Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  # Rails.application.routes.default_url_options[:host] = 'localhost:3000'
   Rails.application.routes.default_url_options = { host: Rails.application.secrets.domain_name }
 
   # Mount Action Cable outside main process or domain
@@ -56,29 +58,29 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  #config.cache_store = :redis_store, Rails.application.secrets.redis_url
-  #config.cache_store = :redis_cache_store, {url: Rails.application.secrets.redis_url}
-  #config.cache_store = :redis_cache_store, {driver: :hiredis, url: Rails.application.secrets.redis_url}
+  # config.cache_store = :redis_store, Rails.application.secrets.redis_url
+  # config.cache_store = :redis_cache_store, {url: Rails.application.secrets.redis_url}
+  # config.cache_store = :redis_cache_store, {driver: :hiredis, url: Rails.application.secrets.redis_url}
 
   config.cache_store = :redis_cache_store, {
-    driver: :hiredis, 
-    url: Rails.application.secrets.redis_url,     
-    connect_timeout: 30,  # Defaults to 20 seconds
-    read_timeout:    0.2, # Defaults to 1 second
-    write_timeout:   0.2, # Defaults to 1 second
-   
-    error_handler: -> (method:, returning:, exception:) {
+    driver: :hiredis,
+    url: Rails.application.secrets.redis_url,
+    connect_timeout: 30, # Defaults to 20 seconds
+    read_timeout: 0.2, # Defaults to 1 second
+    write_timeout: 0.2, # Defaults to 1 second
+
+    error_handler: lambda { |method:, returning:, exception:|
       # Report errors to Sentry as warnings
       Raven.capture_exception exception, level: 'warning',
-        tags: { method: method, returning: returning }
+                                         tags: { method: method, returning: returning }
     }
   }
 
-  config.action_controller.page_cache_directory = Rails.root.join("public", "cached_pages")
+  config.action_controller.page_cache_directory = Rails.root.join('public', 'cached_pages')
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
@@ -105,7 +107,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
@@ -113,5 +115,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
 end

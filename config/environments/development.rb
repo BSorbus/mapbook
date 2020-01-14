@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -16,25 +18,24 @@ Rails.application.configure do
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
-    config.action_controller.page_cache_directory = Rails.root.join("public", "cached_pages")
+    config.action_controller.page_cache_directory = Rails.root.join('public', 'cached_pages')
 
     # config.cache_store = :memory_store
-    #config.cache_store = :redis_store, Rails.application.secrets.redis_url
+    # config.cache_store = :redis_store, Rails.application.secrets.redis_url
 
     config.cache_store = :redis_cache_store, {
-      driver: :hiredis, 
-      url: Rails.application.secrets.redis_url,     
-      connect_timeout: 30,  # Defaults to 20 seconds
-      read_timeout:    0.2, # Defaults to 1 second
-      write_timeout:   0.2, # Defaults to 1 second
-     
-      error_handler: -> (method:, returning:, exception:) {
+      driver: :hiredis,
+      url: Rails.application.secrets.redis_url,
+      connect_timeout: 30, # Defaults to 20 seconds
+      read_timeout: 0.2, # Defaults to 1 second
+      write_timeout: 0.2, # Defaults to 1 second
+
+      error_handler: lambda { |method:, returning:, exception:|
         # Report errors to Sentry as warnings
         Raven.capture_exception exception, level: 'warning',
-          tags: { method: method, returning: returning }
+                                           tags: { method: method, returning: returning }
       }
     }
-
 
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
@@ -48,7 +49,7 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
   # config.default_url_options = { host: Rails.application.secrets.domain_name }
-  #Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  # Rails.application.routes.default_url_options[:host] = 'localhost:3000'
   Rails.application.routes.default_url_options = { host: Rails.application.secrets.domain_name }
 
   # Don't care if the mailer can't send.
@@ -79,5 +80,4 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
 end

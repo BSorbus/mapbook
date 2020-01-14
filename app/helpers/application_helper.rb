@@ -1,5 +1,6 @@
-module ApplicationHelper
+# frozen_string_literal: true
 
+module ApplicationHelper
   # for layouts/messages
   def flash_class_name(name)
     case name
@@ -11,10 +12,9 @@ module ApplicationHelper
   end
 
   # display error layout
-  def form_errors_for(object=nil)
+  def form_errors_for(object = nil)
     if object.present? && object.errors.any?
       render('layouts/errors', object: object)
     end
   end
-
 end

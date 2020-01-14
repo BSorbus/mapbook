@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   get  '/teryt/:teryt/file_pdf', to: 'teryt#file_pdf'
   get  '/teryt/:teryt/file_xlsx', to: 'teryt#file_xlsx'
 
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
   post '/areas/find_or_create', to: 'areas#find_or_create'
   get  '/areas/info', to: 'areas#info'
 
-  #resources :areas, except: [:show, :create]
+  # resources :areas, except: [:show, :create]
   resources :areas, only: [:index]
 
   root 'areas#index'

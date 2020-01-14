@@ -1,5 +1,6 @@
-class Rack::Attack
+# frozen_string_literal: true
 
+class Rack::Attack
   ### Configure Cache ###
 
   # If you don't want to use Rails.cache (Rack::Attack's default), then
@@ -9,7 +10,7 @@ class Rack::Attack
   # whitelisting). It must implement .increment and .write like
   # ActiveSupport::Cache::Store
 
-  Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new 
+  Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   ### Throttle Spammy Clients ###
 
@@ -29,9 +30,7 @@ class Rack::Attack
   # end
 
   # Allow an IP address to make 5 requests every 20 seconds
-  throttle('req/ip', limit: 3000, period: 300.seconds) do |req|
-    req.ip
-  end
+  throttle('req/ip', limit: 3000, period: 300.seconds, &:ip)
   ### Prevent Brute-Force Login Attacks ###
 
   # The most common brute-force login attack is a brute-force password
@@ -45,9 +44,7 @@ class Rack::Attack
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:logins/ip:#{req.ip}"
   throttle('logins/ip', limit: 5, period: 60.seconds) do |req|
-    if req.path == '/login' && req.post?
-      req.ip
-    end
+    req.ip if req.path == '/login' && req.post?
   end
 
   # Throttle POST requests to /login by email param
@@ -58,7 +55,7 @@ class Rack::Attack
   # throttle logins for another user and force their login requests to be
   # denied, but that's not very common and shouldn't happen to you. (Knock
   # on wood!)
-  throttle("logins/email", limit: 5, period: 60.seconds) do |req|
+  throttle('logins/email', limit: 5, period: 60.seconds) do |req|
     if req.path == '/login' && req.post?
       # return the email if present, nil otherwise
       req.params['email'].presence
@@ -79,15 +76,13 @@ class Rack::Attack
   #    ['']] # body
   # end
 
-
- # Send the following response to throttled clients
-  self.throttled_response = ->(env) {
+  # Send the following response to throttled clients
+  self.throttled_response = lambda { |env|
     retry_after = (env['rack.attack.match_data'] || {})[:period]
     [
       429,
-      {'Retry-After' => retry_after.to_s},
-      [{error: "Throttle limit reached. Retry later."}.to_json]
+      { 'Retry-After' => retry_after.to_s },
+      [{ error: 'Throttle limit reached. Retry later.' }.to_json]
     ]
   }
-
 end

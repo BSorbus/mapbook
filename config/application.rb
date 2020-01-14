@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -20,8 +22,6 @@ module MapBook
 
     config.middleware.use Rack::Attack
     config.i18n.default_locale = :pl
-    config.i18n.available_locales = [:en, :pl]
-    
-
+    config.i18n.available_locales = %i[en pl]
   end
 end

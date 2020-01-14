@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -30,7 +32,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system in a temporary directory
   config.active_storage.service = :test
-  #Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  # Rails.application.routes.default_url_options[:host] = 'localhost:3000'
   Rails.application.routes.default_url_options = { host: Rails.application.secrets.domain_name }
 
   config.action_mailer.perform_caching = false
@@ -45,5 +47,4 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-
 end

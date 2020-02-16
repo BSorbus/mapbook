@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-
-require 'net/http'
-
 class PitTerytController < ApplicationController
+
   def provinces_select2_index
     provinces_obj = PitTerytProvince.new(q: params[:q])
     provinces_obj.run_request
@@ -30,4 +28,5 @@ class PitTerytController < ApplicationController
 
     render json: { communes: array_list_on_page, meta: { total_count: array_list.size } }, status: communes_obj.response.code
   end
+
 end

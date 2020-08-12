@@ -16,6 +16,9 @@ class AreasController < ApplicationController
 
   def find_or_create
     @area = Area.find_or_create_by!(area_params)
+    puts '-------------------------------------------------'
+    puts "#{area_params}"
+    puts '-------------------------------------------------'
     # authorize @comment, :create?
     respond_to do |format|
       format.js { render 'areas/find_or_create.js.erb', locals: { area: @area } }

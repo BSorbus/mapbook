@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-
-require 'net/http'
-
 class TerytController < ApplicationController
+
   def file_pdf
     @area = Area.find_by(teryt: params[:teryt])
     # redirect_to @area.file_pdf.service_url

@@ -30,7 +30,7 @@ class ApiTerytDistrictCommunes
     http.use_ssl = true if uri.scheme == "https"
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.scheme == "https" # Sets the HTTPS verify mode
     # /SSL
-    params = {Query: "#{@q}", Offset: "#{@page}", Limit: "#{@page_limit}", Order: "name", OrderDir: "asc", StateOn: "#{Rails.application.secrets[:api_teryt_date]}"}
+    params = {Query: "#{@q}", Offset: "#{@page}", Limit: "#{@page_limit}", Order: "name", OrderDir: "asc", ExceptTypes: "4,5", StateOn: "#{Rails.application.secrets[:api_teryt_date]}"}
     uri.query = URI.encode_www_form(params)
 
     @response = Net::HTTP.get_response(uri)

@@ -82,9 +82,9 @@ gem 'rack-attack'
 
 gem 'mina'
 
+gem "actionpack-page_caching", ">= 1.2.2"
 gem 'actionpack-action_caching'
-gem 'actionpack-page_caching'
 
-gem 'kaminari'
+gem "kaminari", ">= 1.2.1"
 gem 'piwik_analytics'
 gem 'rubocop', require: false

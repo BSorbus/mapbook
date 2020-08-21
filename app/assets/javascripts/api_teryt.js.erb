@@ -23,7 +23,7 @@ $(document).ready(function() {
     minimumInputLength: 0,
     allowClear: false,
     ajax: {
-      url: "/api_teryt/provinces_select2_index.json",
+      url: "/api_teryt/provinces.json",
       dataType: 'json',
       type: 'GET',
       data: function(term, page) {
@@ -89,7 +89,7 @@ $(document).ready(function() {
     minimumInputLength: 0,
     allowClear: false,
     ajax: {
-      url: "/api_teryt/province_districts_select2_index.json",
+      url: "/api_teryt/province_districts.json",
       dataType: 'json',
       type: 'GET',
       data: function(term, page) {
@@ -157,7 +157,7 @@ $(document).ready(function() {
     allowClear: false,
     ajax: {
       //url: "/teryt/district_communes.json",
-      url: "/api_teryt/district_communes_select2_index.json",
+      url: "/api_teryt/district_communes.json",
       dataType: 'json',
       type: 'GET',
       data: function(term, page) {

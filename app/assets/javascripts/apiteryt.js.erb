@@ -2,11 +2,11 @@
 $(document).ready(function() {
 
   // Provinces
-  function provinceFormatResult(item) {
+  function provinceFormatResult(item, container, query, escapeMarkup) {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.id + '&nbsp]</span>';
+      return  markMatch(item.data_obj.name, query.term) + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.id + '&nbsp]</span>';
     }
   };
   function provinceFormatSelection(item) {
@@ -70,11 +70,11 @@ $(document).ready(function() {
 
 
   // ProvinceDistricts
-  function districtFormatResult(item) {
+  function districtFormatResult(item, container, query, escapeMarkup) {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.id + '&nbsp]</span>';
+      return  markMatch(item.data_obj.name, query.term) + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.id + '&nbsp]</span>';
     }
   };
   function districtFormatSelection(item) {
@@ -132,11 +132,11 @@ $(document).ready(function() {
 
 
   // DistrictCommunes
-  function communeFormatResult(item) {
+  function communeFormatResult(item, container, query, escapeMarkup) {
     if (isEmpty(item.id)) {
       return "";
     } else {
-      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.typeName + '&nbsp][&nbsp' + item.data_obj.id + '&nbsp]</span>';
+      return  markMatch(item.data_obj.name, query.term) + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.typeName + '&nbsp][&nbsp' + item.data_obj.id + '&nbsp]</span>';
     }
   };
   function communeFormatSelection(item) {

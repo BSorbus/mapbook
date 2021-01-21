@@ -19,6 +19,9 @@ pl:
     info:
       title: 'Informacje'
       navbar: 'o atlasie'
+    declaration:
+      title: 'Deklaracja dostępności'
+      navbar: 'Deklaracja dostępności'
     edit:
       title: 'Edycja -> Obszar'
     area:

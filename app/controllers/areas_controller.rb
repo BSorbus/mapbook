@@ -4,9 +4,13 @@ class AreasController < ApplicationController
   before_action :set_area, only: %i[show edit update destroy]
 
   # caches_page :info, :gzip => true
-  caches_page :info, :index, gzip: :best_speed
+  caches_page :info, :declaration, :index, gzip: :best_speed
 
-  def info; end
+  def info 
+  end
+
+  def declaration 
+  end
 
   # GET /areas
   # GET /areas.json

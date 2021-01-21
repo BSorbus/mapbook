@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   post '/areas/find_or_create', to: 'areas#find_or_create'
   get  '/areas/info', to: 'areas#info'
+  get  '/areas/declaration', to: 'areas#declaration'
 
   # resources :areas, except: [:show, :create]
   resources :areas, only: [:index]

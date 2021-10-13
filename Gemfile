@@ -13,8 +13,8 @@ gem 'pg'
 # Use Puma as the app server
 # gem 'puma', '~> 3.11'
 # gem 'puma', '~> 4.3.5'
-gem 'puma', '~> 5.3.2'
-gem 'nokogiri', '~> 1.11.5'
+gem 'puma', '~> 5.5.1'
+gem 'nokogiri', '~> 1.12.5'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -90,3 +90,4 @@ gem 'actionpack-action_caching'
 gem "kaminari", ">= 1.2.1"
 gem 'piwik_analytics'
 gem 'rubocop', require: false
+gem "addressable", ">= 2.8.0"
